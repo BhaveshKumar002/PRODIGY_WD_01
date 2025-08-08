@@ -1,145 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InteractiveNav</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      scroll-behavior: smooth;
-      background: #f4f4f4;
-    }
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: #333;
-      padding: 10px 0;
-      z-index: 1000;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      margin: 0;
-      padding: 0;
-    }
-    nav ul li {
-      margin: 0 20px;
-    }
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-    nav ul li a:hover {
-      color: #00bcd4;
-    }
-    nav ul li a.active {
-      color: #00bcd4;
-      border-bottom: 2px solid #00bcd4;
-      padding-bottom: 3px;
-    }
-    section {
-      padding: 100px 20px;
-      height: 100vh;
-      box-sizing: border-box;
-      background: #222;
-      color: white;
-    }
-    section:nth-child(even) {
-      background: #444;
-    }
-    h2 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-    p, ul {
-      font-size: 18px;
-      line-height: 1.6;
-    }
-    ul {
-      padding-left: 20px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interactive Fixed Navigation Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nav-height: 68px;
+    --accent: #4f46e5;
+    --bg-scrolled: rgba(15, 23, 42, 0.9);
+    --text: #0f172a;
+    --muted: #6b7280;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text);
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    transition: background .3s ease, box-shadow .3s ease;
+  }
+  header.scrolled {
+    background: var(--bg-scrolled);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .nav-container {
+    max-width: 1100px;
+    margin: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    color: var(--text);
+  }
+  header.scrolled .brand {
+    color: #fff;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+  }
+  nav a {
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.3s ease;
+  }
+  nav a:hover {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+  header.scrolled nav a {
+    color: rgba(255,255,255,0.85);
+  }
+  header.scrolled nav a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+  nav a.active {
+    background: var(--accent);
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+  }
+  main {
+    padding-top: calc(var(--nav-height) + 40px);
+  }
+  section {
+    min-height: 100vh;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 50px 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+    color: white;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Different colors for each section */
+  #home { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+  #about { background: linear-gradient(135deg, #ff9966, #ff5e62); }
+  #services { background: linear-gradient(135deg, #43cea2, #185a9d); }
+  #projects { background: linear-gradient(135deg, #f7971e, #ffd200); color: #222; }
+  #contact { background: linear-gradient(135deg, #fc466b, #3f5efb); }
+  section h2 {
+    margin-bottom: 12px;
+    font-size: 2rem;
+  }
+  section p {
+    color: inherit;
+    line-height: 1.6;
+  }
+</style>
 </head>
 <body>
-
-<nav>
-  <ul>
-    <li><a href="#home" class="active">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<section id="home">
-  <h2>Home</h2>
-  <p>Welcome to <strong>InteractiveNav</strong>, a modern one-page website example featuring a smooth and responsive fixed navigation menu. Scroll down to see each section come alive with animations and active link highlights. This design is perfect for portfolios, business sites, or landing pages.</p>
-</section>
-
-<section id="about">
-  <h2>About</h2>
-  <p>We are passionate about creating elegant, functional, and user-friendly web interfaces. This example demonstrates how design and functionality can work hand-in-hand to deliver a seamless browsing experience. Our approach combines creativity with the latest web technologies to bring ideas to life.</p>
-</section>
-
-<section id="services">
-  <h2>Services</h2>
-  <p>We specialize in delivering high-quality services that make your online presence stand out:</p>
-  <ul>
-    <li>Custom Web Design & Development</li>
-    <li>Responsive and Mobile-Friendly Layouts</li>
-    <li>SEO Optimization & Performance Tuning</li>
-    <li>Branding and Visual Identity</li>
-  </ul>
-</section>
-
-<section id="projects">
-  <h2>Projects</h2>
-  <p>Here are some examples of the types of projects we’ve worked on:</p>
-  <ul>
-    <li>Interactive Portfolio Websites</li>
-    <li>Business Landing Pages with Conversion Focus</li>
-    <li>E-commerce Storefronts</li>
-    <li>Custom Web Applications</li>
-  </ul>
-</section>
-
-<section id="contact">
-  <h2>Contact</h2>
-  <p>We’d love to hear from you! Whether you have a project in mind, need advice, or just want to say hello, feel free to reach out:</p>
-  <p>Email: <a href="mailto:hello@example.com" style="color: #fff; text-decoration: underline;">hello@example.com</a></p>
-  <p>Phone: +1 (234) 567-890</p>
-</section>
-
+<header id="siteHeader">
+  <div class="nav-container">
+    <div class="brand">InteractiveNav</div>
+    <nav>
+      <ul id="mainNav">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+  <section id="home"><h2>Home</h2><p>Welcome to the interactive navigation menu demo.</p></section>
+  <section id="about"><h2>About</h2><p>This demo highlights the active section as you scroll.</p></section>
+  <section id="services"><h2>Services</h2><p>Active highlighting stays until the next section is reached.</p></section>
+  <section id="projects"><h2>Projects</h2><p>We also add smooth animations on scroll.</p></section>
+  <section id="contact"><h2>Contact</h2><p>Navbar remains fixed on all pages.</p></section>
+</main>
 <script>
-  const sections = document.querySelectorAll("section");
-  const navLinks = document.querySelectorAll("nav ul li a");
+  const header = document.getElementById('siteHeader');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section');
 
-  window.addEventListener("scroll", () => {
-    let current = "";
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 70;
-      const sectionHeight = section.clientHeight;
-      if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
-        current = section.getAttribute("id");
+  // Highlight nav link based on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        document.querySelector(`.nav-link[href="#${entry.target.id}"]`).classList.add('active');
       }
     });
+  }, { rootMargin: '-50% 0px -50% 0px' });
 
-    navLinks.forEach(link => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === "#" + current) {
-        link.classList.add("active");
+  sections.forEach(section => observer.observe(section));
+
+  // Scroll animation for sections
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
       }
     });
+  }, { threshold: 0.1 });
+
+  sections.forEach(section => fadeObserver.observe(section));
+
+  // Change header style on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
   });
 </script>
-
 </body>
 </html>
+For this add some text for home,about,services,projects, contact
