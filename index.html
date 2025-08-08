@@ -108,7 +108,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-  /* Different colors for each section */
+
   #home { background: linear-gradient(135deg, #4facfe, #00f2fe); }
   #about { background: linear-gradient(135deg, #ff9966, #ff5e62); }
   #services { background: linear-gradient(135deg, #43cea2, #185a9d); }
@@ -162,7 +162,6 @@
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('section');
 
-  // Highlight nav link based on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -174,7 +173,6 @@
 
   sections.forEach(section => observer.observe(section));
 
-  // Scroll animation for sections
   const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -185,7 +183,6 @@
 
   sections.forEach(section => fadeObserver.observe(section));
 
-  // Change header style on scroll
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) header.classList.add('scrolled');
     else header.classList.remove('scrolled');
@@ -193,4 +190,3 @@
 </script>
 </body>
 </html>
-For this add some text for home,about,services,projects, contact
