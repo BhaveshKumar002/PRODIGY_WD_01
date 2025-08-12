@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --nav-height: 68px;
+    --nav-height: 60px;
     --accent: #4f46e5;
     --bg-scrolled: rgba(15, 23, 42, 0.9);
     --text: #0f172a;
@@ -48,11 +48,10 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0 20px;
   }
   .brand {
-    display: flex;
-    align-items: center;
     font-weight: 700;
     color: var(--text);
   }
@@ -108,7 +107,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-
   #home { background: linear-gradient(135deg, #4facfe, #00f2fe); }
   #about { background: linear-gradient(135deg, #ff9966, #ff5e62); }
   #services { background: linear-gradient(135deg, #43cea2, #185a9d); }
@@ -119,8 +117,58 @@
     font-size: 2rem;
   }
   section p {
-    color: inherit;
     line-height: 1.6;
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--text);
+    transition: all 0.3s ease;
+  }
+  header.scrolled .menu-toggle span {
+    background: #fff;
+  }
+  @media (max-width: 768px) {
+    nav {
+      position: fixed;
+      top: var(--nav-height);
+      right: -100%;
+      background: var(--bg-scrolled);
+      height: 100vh;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+      transition: right 0.3s ease;
+    }
+    nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+    nav a {
+      color: #fff;
+      padding: 12px 20px;
+      display: block;
+    }
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: none;
+    }
+    nav.show {
+      right: 0;
+    }
+    .menu-toggle {
+      display: flex;
+    }
   }
 </style>
 </head>
@@ -128,7 +176,12 @@
 <header id="siteHeader">
   <div class="nav-container">
     <div class="brand">InteractiveNav</div>
-    <nav>
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav id="mainNavWrapper">
       <ul id="mainNav">
         <li><a href="#home" class="nav-link active">Home</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
@@ -140,27 +193,18 @@
   </div>
 </header>
 <main>
-  <section id="home"><h2>Home</h2><p>Welcome to <strong>InteractiveNav</strong>, a modern one-page website example featuring a smooth and responsive fixed navigation menu. Scroll down to see each section come alive with animations and active link highlights. This design is perfect for portfolios, business sites, or landing pages.</p></section>
-  <section id="about"><h2>About</h2><p>We are passionate about creating elegant, functional, and user-friendly web interfaces. This example demonstrates how design and functionality can work hand-in-hand to deliver a seamless browsing experience. Our approach combines creativity with the latest web technologies to bring ideas to life.</p></section>
-  <section id="services"><h2>Services</h2><p>We specialize in delivering high-quality services that make your online presence stand out:</p>
-<ul>
-      <li>Custom Web Design & Development</li>
-      <li>Responsive and Mobile-Friendly Layouts</li>
-      <li>SEO Optimization & Performance Tuning</li>
-      <li>Branding and Visual Identity</li>
-    </ul></section>
-  <section id="projects"><h2>Projects</h2><p>Here are some examples of the types of projects we’ve worked on:</p><ul>
-      <li>Interactive Portfolio Websites</li>
-      <li>Business Landing Pages with Conversion Focus</li>
-      <li>E-commerce Storefronts</li>
-      <li>Custom Web Applications</li>
-    </ul></section>
-  <section id="contact"><h2>Contact</h2><p>We’d love to hear from you! Whether you have a project in mind, need advice, or just want to say hello.</p></section>
+  <section id="home"><h2>Home</h2><p>Welcome to <strong>InteractiveNav</strong>...</p></section>
+  <section id="about"><h2>About</h2><p>We are passionate...</p></section>
+  <section id="services"><h2>Services</h2><p>We specialize in...</p></section>
+  <section id="projects"><h2>Projects</h2><p>Here are some examples...</p></section>
+  <section id="contact"><h2>Contact</h2><p>We’d love to hear from you!</p></section>
 </main>
 <script>
   const header = document.getElementById('siteHeader');
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('section');
+  const menuToggle = document.getElementById('menuToggle');
+  const mainNavWrapper = document.getElementById('mainNavWrapper');
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -186,6 +230,16 @@
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) header.classList.add('scrolled');
     else header.classList.remove('scrolled');
+  });
+
+  menuToggle.addEventListener('click', () => {
+    mainNavWrapper.classList.toggle('show');
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mainNavWrapper.classList.remove('show');
+    });
   });
 </script>
 </body>
